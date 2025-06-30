@@ -6,9 +6,9 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "box-ai-agents-toolkit>=0.0.42",
-    "box-sdk-gen>=1.13.0",
-    "mcp[cli]>=1.6.0",
-    "python-dotenv>=1.1.0",
+    "box-sdk-gen>=1.15.0",
+    "mcp[cli]>=1.10.1",
+    "python-dotenv>=1.1.1",
 ]
 
 [dependency-groups]

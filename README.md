@@ -305,13 +305,19 @@ List all Doc Gen jobs that used a specific template.
 
 ### Running the MCP Server
 
-To start the MCP server, run the following command:
+The MCP server supports four transport methods: **stdio** (default), **SSE** (Server-Sent Events), **HTTP** (StreamableHttp), and **FastAPI**.
+
+#### Running with stdio transport (default)
 
 ```sh
-uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
+uv --directory /path/to/mcp-server-box run src/mcp_server_box.py
 ```
 
+
+
 ### Using Claude as the client
+
+#### For stdio transport (recommended for Claude Desktop)
 
 1. Edit your `claude_desktop_config.json`:
 
@@ -328,7 +334,7 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
                 "command": "uv",
                 "args": [
                     "--directory",
-                    "/Users/anovotny/Desktop/mcp-server-box",
+                    "/path/to/mcp-server-box",
                     "run",
                     "src/mcp_server_box.py"
                 ]
@@ -339,7 +345,10 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
 
 3. Restart Claude if it is running.
 
+
 ### Using Cursor as the client
+
+#### For stdio transport
 
 1. Open your IDE with Cursor.
 2. In settings, select `Cursor settings`.
@@ -354,7 +363,7 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
           "command": "uv",
           "args": [
             "--directory",
-            "/Users/shurrey/local/mcp-server-box",
+            "/path/to/mcp-server-box",
             "run",
             "src/mcp_server_box.py"
           ]
@@ -364,6 +373,7 @@ uv --directory /Users/anovotny/Desktop/mcp-server-box run src/mcp_server_box.py
     ```
 
 6. Save and close the mcp.json file, and restart if necessary.
+
 
 ## Running Tests
 
