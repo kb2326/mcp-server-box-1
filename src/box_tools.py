@@ -25,7 +25,7 @@ from box_ai_agents_toolkit import (
     box_update_folder,
     box_upload_file,
     authorize_app,
-    box_docgen_create_batch,
+    # box_docgen_create_batch,
     box_docgen_get_job_by_id,
     box_docgen_list_jobs,
     box_docgen_list_jobs_by_batch,
@@ -47,7 +47,7 @@ def get_box_client(ctx: Context) -> BoxClient:
     return cast(BoxContext, ctx.request_context.lifespan_context).client
 
 
-async def box_who_am_i(ctx: Context) -> str:
+async def box_who_am_i(ctx: Context) -> dict:
     """
     Get the current user's information.
     This is also useful to check the connection status.
@@ -56,8 +56,8 @@ async def box_who_am_i(ctx: Context) -> str:
         str: The current user's information.
     """
     box_client = get_box_client(ctx)
-    current_user = box_client.users.get_user_me()
-    return f"Authenticated as: {current_user.name}"
+    return box_client.users.get_user_me()
+    # return f"Authenticated as: {current_user.name}"
 
 
 async def box_authorize_app_tool() -> str:

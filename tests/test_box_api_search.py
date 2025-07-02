@@ -38,8 +38,8 @@ def test_box_api_list_content_folders(box_client: BoxClient):
     assert all(item.type in ["file", "folder"] for item in items)
 
 
-def test_box_api_list_conten_filest(box_client: BoxClient):
-    # This filder only has files
+def test_box_api_list_content_files(box_client: BoxClient):
+    # This filter only has files
     items = box_folder_list_content(box_client, "298939487242")
 
     assert len(items) > 0
