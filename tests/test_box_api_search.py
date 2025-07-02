@@ -1,6 +1,5 @@
 from typing import List
 
-
 from box_ai_agents_toolkit import (
     BoxClient,
     File,

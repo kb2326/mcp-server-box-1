@@ -113,14 +113,19 @@ async def box_search_tool(
 
     return [search_result.to_dict() for search_result in search_results]
 
-    # Return the "id", "name", "description" of the search results
-    search_results = [
-        f"{file.name} (id:{file.id})"
-        + (f" {file.description}" if file.description else "")
-        for file in search_results
-    ]
 
-    return "\n".join(search_results)
+async def box_search_folder_by_name(ctx: Context, folder_name: str) -> dict:
+    """
+    Locate a folder in Box by its name.
+
+    Args:
+        folder_name (str): The name of the folder to locate.
+    return:
+        dict: The folder ID.
+    """
+    box_client = get_box_client(ctx)
+    search_results = box_locate_folder_by_name(box_client, folder_name)
+    return [search_result.to_dict() for search_result in search_results]
 
 
 async def box_read_tool(ctx: Context, file_id: str) -> str:
@@ -137,6 +142,7 @@ async def box_read_tool(ctx: Context, file_id: str) -> str:
         file_id = str(file_id)
 
     box_client = get_box_client(ctx)
+    # TODO:return file object or file mini with id, name, type, description
     response = box_file_text_extract(box_client, file_id)
     return response
 
@@ -162,7 +168,7 @@ async def box_ask_ai_tool(ctx: Context, file_id: str, prompt: str) -> dict:
 
 async def box_ask_ai_tool_multi_file(
     ctx: Context, file_ids: List[str], prompt: str
-) -> str:
+) -> dict:
     """
     Use Box AI to analyze and respond to a prompt based on the content of multiple files.
 
@@ -176,7 +182,7 @@ async def box_ask_ai_tool_multi_file(
         prompt (str): The prompt or question to ask the AI.
 
     Returns:
-        str: The AI-generated response based on the content of the specified files.
+        dict: The AI-generated response based on the content of the specified files.
 
     Raises:
         Exception: If there is an issue with the Box client, AI agent, or file processing.
@@ -186,7 +192,7 @@ async def box_ask_ai_tool_multi_file(
     return response
 
 
-async def box_hubs_ask_ai_tool(ctx: Context, hubs_id: Any, prompt: str) -> str:
+async def box_hubs_ask_ai_tool(ctx: Context, hubs_id: Any, prompt: str) -> dict:
     """
     Ask box ai about a hub in Box. Currently there is no way to discover a hub
     in Box, so you need to know the id of the hub. We will fix this in the future.
@@ -195,7 +201,7 @@ async def box_hubs_ask_ai_tool(ctx: Context, hubs_id: Any, prompt: str) -> str:
         hubs_id (str): The ID of the hub to read.
         prompt (str): The prompt to ask the AI.
     return:
-        str: The text content of the file.
+        dict: The text content of the file.
     """
     # check if file id isn't a string and convert to a string
     if not isinstance(hubs_id, str):
@@ -207,24 +213,7 @@ async def box_hubs_ask_ai_tool(ctx: Context, hubs_id: Any, prompt: str) -> str:
     return response
 
 
-async def box_search_folder_by_name(ctx: Context, folder_name: str) -> str:
-    """
-    Locate a folder in Box by its name.
-
-    Args:
-        folder_name (str): The name of the folder to locate.
-    return:
-        str: The folder ID.
-    """
-    box_client = get_box_client(ctx)
-    search_results = box_locate_folder_by_name(box_client, folder_name)
-
-    # Return the "id", "name", "description" of the search results
-    search_results = [f"{folder.name} (id:{folder.id})" for folder in search_results]
-    return "\n".join(search_results)
-
-
-async def box_ai_extract_data(ctx: Context, file_id: str, fields: str) -> str:
+async def box_ai_extract_data(ctx: Context, file_id: str, fields: str) -> dict:
     """ "
     Extract data from a single file in Box using AI.
 
@@ -232,7 +221,7 @@ async def box_ai_extract_data(ctx: Context, file_id: str, fields: str) -> str:
         file_id (str): The ID of the file to read.
         fields (str): The fields to extract from the file.
     return:
-        str: The extracted data in a json string format.
+        dict: The extracted data in a json string format.
     """
     box_client = get_box_client(ctx)
 
@@ -241,14 +230,14 @@ async def box_ai_extract_data(ctx: Context, file_id: str, fields: str) -> str:
         file_id = str(file_id)
 
     response = box_file_ai_extract(box_client, file_id, fields)
-    return json.dumps(response)
+    return response
 
 
 async def box_list_folder_content_by_folder_id(
     ctx: Context,
     folder_id: str,
     is_recursive: bool = False,
-) -> str:
+) -> dict:
     """
     List the content of a folder in Box by its ID.
 
@@ -257,7 +246,7 @@ async def box_list_folder_content_by_folder_id(
         is_recursive (bool): Whether to list the content recursively.
 
     return:
-        str: The content of the folder in a json string format, including the "id", "name", "type", and "description".
+        dict: The content of the folder in a json string format, including the "id", "name", "type", and "description".
     """
     box_client = get_box_client(ctx)
 
@@ -279,7 +268,8 @@ async def box_list_folder_content_by_folder_id(
         }
         for item in response
     ]
-    return json.dumps(response)
+    return response
+    # return json.dumps(response)
 
 
 async def box_manage_folder_tool(
