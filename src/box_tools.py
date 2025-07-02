@@ -139,7 +139,7 @@ async def box_read_tool(ctx: Context, file_id: str) -> str:
     return response
 
 
-async def box_ask_ai_tool(ctx: Context, file_id: str, prompt: str) -> str:
+async def box_ask_ai_tool(ctx: Context, file_id: str, prompt: str) -> dict:
     """
     Ask box ai about a file in Box.
 
