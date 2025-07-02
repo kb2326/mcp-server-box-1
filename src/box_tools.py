@@ -53,7 +53,7 @@ async def box_who_am_i(ctx: Context) -> dict:
     This is also useful to check the connection status.
 
     return:
-        str: The current user's information.
+        dict: The current user's information.
     """
     box_client = get_box_client(ctx)
     return box_client.users.get_user_me()
@@ -81,7 +81,7 @@ async def box_search_tool(
     file_extensions: List[str] | None = None,
     where_to_look_for_query: List[str] | None = None,
     ancestor_folder_ids: List[str] | None = None,
-) -> str:
+) -> List[dict]:
     """
     Search for files in Box with the given query.
 
@@ -96,7 +96,7 @@ async def box_search_tool(
             TAG,
         ancestor_folder_ids (List[str]): The ancestor folder IDs to search in.
     return:
-        str: The search results.
+        List[dict]: The search results.
     """
     box_client = get_box_client(ctx)
 
@@ -110,6 +110,8 @@ async def box_search_tool(
     search_results = box_search(
         box_client, query, file_extensions, content_types, ancestor_folder_ids
     )
+
+    return [search_result.to_dict() for search_result in search_results]
 
     # Return the "id", "name", "description" of the search results
     search_results = [
