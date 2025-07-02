@@ -1,15 +1,14 @@
 import base64
 import json
 import os
-from typing import Any, List, Union, cast
+from typing import Any, List, Union
+from box_tools_generic import get_box_client
 
 from box_ai_agents_toolkit import (
-    BoxClient,
     DocumentFiles,
     File,
     Folder,
     ImageFiles,
-    SearchForContentContentTypes,
     box_claude_ai_agent_ask,
     box_create_folder,
     box_delete_folder,
@@ -20,11 +19,8 @@ from box_ai_agents_toolkit import (
     box_file_download,
     box_file_text_extract,
     box_folder_list_content,
-    box_locate_folder_by_name,
-    box_search,
     box_update_folder,
     box_upload_file,
-    authorize_app,
     # box_docgen_create_batch,
     box_docgen_get_job_by_id,
     box_docgen_list_jobs,
@@ -38,94 +34,6 @@ from box_ai_agents_toolkit import (
     box_docgen_create_batch_from_user_input,
 )
 from mcp.server.fastmcp import Context
-
-from server_context import BoxContext
-
-
-def get_box_client(ctx: Context) -> BoxClient:
-    """Helper function to get Box client from context"""
-    return cast(BoxContext, ctx.request_context.lifespan_context).client
-
-
-async def box_who_am_i(ctx: Context) -> dict:
-    """
-    Get the current user's information.
-    This is also useful to check the connection status.
-
-    return:
-        dict: The current user's information.
-    """
-    box_client = get_box_client(ctx)
-    return box_client.users.get_user_me()
-    # return f"Authenticated as: {current_user.name}"
-
-
-async def box_authorize_app_tool() -> str:
-    """
-    Authorize the Box application.
-    Start the Box app authorization process
-
-    return:
-        str: Message
-    """
-    result = authorize_app()
-    if result:
-        return "Box application authorized successfully"
-    else:
-        return "Box application not authorized"
-
-
-async def box_search_tool(
-    ctx: Context,
-    query: str,
-    file_extensions: List[str] | None = None,
-    where_to_look_for_query: List[str] | None = None,
-    ancestor_folder_ids: List[str] | None = None,
-) -> List[dict]:
-    """
-    Search for files in Box with the given query.
-
-    Args:
-        query (str): The query to search for.
-        file_extensions (List[str]): The file extensions to search for, for example *.pdf
-        content_types (List[SearchForContentContentTypes]): where to look for the information, possible values are:
-            NAME
-            DESCRIPTION,
-            FILE_CONTENT,
-            COMMENTS,
-            TAG,
-        ancestor_folder_ids (List[str]): The ancestor folder IDs to search in.
-    return:
-        List[dict]: The search results.
-    """
-    box_client = get_box_client(ctx)
-
-    # Convert the where to look for query to content types
-    content_types: List[SearchForContentContentTypes] = []
-    if where_to_look_for_query:
-        for content_type in where_to_look_for_query:
-            content_types.append(SearchForContentContentTypes[content_type])
-
-    # Search for files with the query
-    search_results = box_search(
-        box_client, query, file_extensions, content_types, ancestor_folder_ids
-    )
-
-    return [search_result.to_dict() for search_result in search_results]
-
-
-async def box_search_folder_by_name(ctx: Context, folder_name: str) -> dict:
-    """
-    Locate a folder in Box by its name.
-
-    Args:
-        folder_name (str): The name of the folder to locate.
-    return:
-        dict: The folder ID.
-    """
-    box_client = get_box_client(ctx)
-    search_results = box_locate_folder_by_name(box_client, folder_name)
-    return [search_result.to_dict() for search_result in search_results]
 
 
 async def box_read_tool(ctx: Context, file_id: str) -> str:

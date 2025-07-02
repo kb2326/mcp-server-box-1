@@ -5,6 +5,8 @@ from mcp.server.fastmcp import FastMCP
 from fastapi import FastAPI
 
 from server_context import box_lifespan
+from box_tools_generic import box_who_am_i, box_authorize_app_tool
+from box_tools_search import box_search_tool, box_search_folder_by_name_tool
 import box_tools
 
 # Disable all logging
@@ -38,15 +40,21 @@ def get_mcp_server(
 
 
 def register_tools(mcp: FastMCP):
+    # Generic tools
+    mcp.tool()(box_who_am_i)
+    mcp.tool()(box_authorize_app_tool)
+
+    # Search Tools
+    mcp.tool()(box_search_tool)
+    mcp.tool()(box_search_folder_by_name_tool)
+
     # Register all tools
-    mcp.tool()(box_tools.box_who_am_i)
-    mcp.tool()(box_tools.box_authorize_app_tool)
-    mcp.tool()(box_tools.box_search_tool)
+
     mcp.tool()(box_tools.box_read_tool)
     mcp.tool()(box_tools.box_ask_ai_tool)
     mcp.tool()(box_tools.box_ask_ai_tool_multi_file)
     mcp.tool()(box_tools.box_hubs_ask_ai_tool)
-    mcp.tool()(box_tools.box_search_folder_by_name)
+
     mcp.tool()(box_tools.box_ai_extract_data)
     mcp.tool()(box_tools.box_list_folder_content_by_folder_id)
     mcp.tool()(box_tools.box_manage_folder_tool)
