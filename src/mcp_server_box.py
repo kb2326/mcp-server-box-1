@@ -13,6 +13,18 @@ from box_tools_ai import (
     box_hubs_ask_ai_tool,
     box_ai_extract_tool,
 )
+from box_tools_docgen import (
+    box_docgen_create_batch_tool,
+    box_docgen_get_job_tool,
+    box_docgen_list_jobs_tool,
+    box_docgen_list_jobs_by_batch_tool,
+    box_docgen_template_create_tool,
+    box_docgen_template_list_tool,
+    box_docgen_template_delete_tool,
+    box_docgen_template_get_by_id_tool,
+    box_docgen_template_list_tags_tool,
+    box_docgen_template_list_jobs_tool,
+)
 import box_tools
 
 # Disable all logging
@@ -60,6 +72,18 @@ def register_tools(mcp: FastMCP):
     mcp.tool()(box_hubs_ask_ai_tool)
     mcp.tool()(box_ai_extract_tool)
 
+    # Document Generation Tools
+    mcp.tool()(box_docgen_create_batch_tool)
+    mcp.tool()(box_docgen_get_job_tool)
+    mcp.tool()(box_docgen_list_jobs_tool)
+    mcp.tool()(box_docgen_list_jobs_by_batch_tool)
+    mcp.tool()(box_docgen_template_create_tool)
+    mcp.tool()(box_docgen_template_list_tool)
+    mcp.tool()(box_docgen_template_delete_tool)
+    mcp.tool()(box_docgen_template_get_by_id_tool)
+    mcp.tool()(box_docgen_template_list_tags_tool)
+    mcp.tool()(box_docgen_template_list_jobs_tool)
+
     # Register all tools
 
     mcp.tool()(box_tools.box_read_tool)
@@ -68,16 +92,6 @@ def register_tools(mcp: FastMCP):
     mcp.tool()(box_tools.box_upload_file_from_path_tool)
     mcp.tool()(box_tools.box_upload_file_from_content_tool)
     mcp.tool()(box_tools.box_download_file_tool)
-    mcp.tool()(box_tools.box_docgen_create_batch_tool)
-    mcp.tool()(box_tools.box_docgen_get_job_tool)
-    mcp.tool()(box_tools.box_docgen_list_jobs_tool)
-    mcp.tool()(box_tools.box_docgen_list_jobs_by_batch_tool)
-    mcp.tool()(box_tools.box_docgen_template_create_tool)
-    mcp.tool()(box_tools.box_docgen_template_list_tool)
-    mcp.tool()(box_tools.box_docgen_template_delete_tool)
-    mcp.tool()(box_tools.box_docgen_template_get_by_id_tool)
-    mcp.tool()(box_tools.box_docgen_template_list_tags_tool)
-    mcp.tool()(box_tools.box_docgen_template_list_jobs_tool)
 
 
 if __name__ == "__main__":
