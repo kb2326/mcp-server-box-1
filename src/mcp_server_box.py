@@ -7,6 +7,12 @@ from fastapi import FastAPI
 from server_context import box_lifespan
 from box_tools_generic import box_who_am_i, box_authorize_app_tool
 from box_tools_search import box_search_tool, box_search_folder_by_name_tool
+from box_tools_ai import (
+    box_ask_ai_tool,
+    box_ask_ai_tool_multi_file,
+    box_hubs_ask_ai_tool,
+    box_ai_extract_tool,
+)
 import box_tools
 
 # Disable all logging
@@ -48,14 +54,15 @@ def register_tools(mcp: FastMCP):
     mcp.tool()(box_search_tool)
     mcp.tool()(box_search_folder_by_name_tool)
 
+    # AI Tools
+    mcp.tool()(box_ask_ai_tool)
+    mcp.tool()(box_ask_ai_tool_multi_file)
+    mcp.tool()(box_hubs_ask_ai_tool)
+    mcp.tool()(box_ai_extract_tool)
+
     # Register all tools
 
     mcp.tool()(box_tools.box_read_tool)
-    mcp.tool()(box_tools.box_ask_ai_tool)
-    mcp.tool()(box_tools.box_ask_ai_tool_multi_file)
-    mcp.tool()(box_tools.box_hubs_ask_ai_tool)
-
-    mcp.tool()(box_tools.box_ai_extract_data)
     mcp.tool()(box_tools.box_list_folder_content_by_folder_id)
     mcp.tool()(box_tools.box_manage_folder_tool)
     mcp.tool()(box_tools.box_upload_file_from_path_tool)
