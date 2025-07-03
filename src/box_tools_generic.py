@@ -1,6 +1,8 @@
 from typing import cast
-from mcp.server.fastmcp import Context
+
 from box_ai_agents_toolkit import BoxClient, authorize_app
+from mcp.server.fastmcp import Context
+
 from server_context import BoxContext
 
 

@@ -1,7 +1,5 @@
 import base64
 import os
-from mcp.server.fastmcp import Context
-from box_tools_generic import get_box_client
 
 from box_ai_agents_toolkit import (
     DocumentFiles,
@@ -10,6 +8,9 @@ from box_ai_agents_toolkit import (
     box_file_text_extract,
     box_upload_file,
 )
+from mcp.server.fastmcp import Context
+
+from box_tools_generic import get_box_client
 
 
 async def box_read_tool(ctx: Context, file_id: str) -> str:

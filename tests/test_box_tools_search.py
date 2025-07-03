@@ -1,6 +1,8 @@
 from typing import List
+
 import pytest
-from box_tools_search import box_search_tool, box_search_folder_by_name_tool
+
+from box_tools_search import box_search_folder_by_name_tool, box_search_tool
 
 
 @pytest.mark.asyncio

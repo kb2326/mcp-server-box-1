@@ -1,40 +1,40 @@
-import logging
 import argparse
+import logging
 
-from mcp.server.fastmcp import FastMCP
 from fastapi import FastAPI
+from mcp.server.fastmcp import FastMCP
 
-from server_context import box_lifespan
-from box_tools_generic import box_who_am_i, box_authorize_app_tool
-from box_tools_search import box_search_tool, box_search_folder_by_name_tool
 from box_tools_ai import (
+    box_ai_extract_tool,
     box_ask_ai_tool,
     box_ask_ai_tool_multi_file,
     box_hubs_ask_ai_tool,
-    box_ai_extract_tool,
 )
 from box_tools_docgen import (
     box_docgen_create_batch_tool,
     box_docgen_get_job_tool,
-    box_docgen_list_jobs_tool,
     box_docgen_list_jobs_by_batch_tool,
+    box_docgen_list_jobs_tool,
     box_docgen_template_create_tool,
-    box_docgen_template_list_tool,
     box_docgen_template_delete_tool,
     box_docgen_template_get_by_id_tool,
-    box_docgen_template_list_tags_tool,
     box_docgen_template_list_jobs_tool,
+    box_docgen_template_list_tags_tool,
+    box_docgen_template_list_tool,
 )
 from box_tools_files import (
-    box_read_tool,
-    box_upload_file_from_path_tool,
-    box_upload_file_from_content_tool,
     box_download_file_tool,
+    box_read_tool,
+    box_upload_file_from_content_tool,
+    box_upload_file_from_path_tool,
 )
 from box_tools_folders import (
     box_list_folder_content_by_folder_id,
     box_manage_folder_tool,
 )
+from box_tools_generic import box_authorize_app_tool, box_who_am_i
+from box_tools_search import box_search_folder_by_name_tool, box_search_tool
+from server_context import box_lifespan
 
 # Disable all logging
 logging.basicConfig(level=logging.CRITICAL)

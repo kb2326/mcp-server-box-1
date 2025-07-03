@@ -1,4 +1,5 @@
 from typing import List, Union
+
 from box_ai_agents_toolkit import (
     File,
     Folder,
@@ -8,6 +9,7 @@ from box_ai_agents_toolkit import (
     box_update_folder,
 )
 from mcp.server.fastmcp import Context
+
 from box_tools_generic import get_box_client
 
 

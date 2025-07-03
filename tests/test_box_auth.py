@@ -1,5 +1,4 @@
 import pytest
-
 from box_ai_agents_toolkit import authorize_app, get_oauth_client
 
 

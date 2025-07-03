@@ -1,7 +1,7 @@
 from box_ai_agents_toolkit import (
     BoxClient,
-    box_file_text_extract,
     box_file_download,
+    box_file_text_extract,
 )
 
 
