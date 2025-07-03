@@ -25,7 +25,16 @@ from box_tools_docgen import (
     box_docgen_template_list_tags_tool,
     box_docgen_template_list_jobs_tool,
 )
-import box_tools
+from box_tools_files import (
+    box_read_tool,
+    box_upload_file_from_path_tool,
+    box_upload_file_from_content_tool,
+    box_download_file_tool,
+)
+from box_tools_folders import (
+    box_list_folder_content_by_folder_id,
+    box_manage_folder_tool,
+)
 
 # Disable all logging
 logging.basicConfig(level=logging.CRITICAL)
@@ -84,14 +93,15 @@ def register_tools(mcp: FastMCP):
     mcp.tool()(box_docgen_template_list_tags_tool)
     mcp.tool()(box_docgen_template_list_jobs_tool)
 
-    # Register all tools
+    # File Tools
+    mcp.tool()(box_read_tool)
+    mcp.tool()(box_upload_file_from_path_tool)
+    mcp.tool()(box_upload_file_from_content_tool)
+    mcp.tool()(box_download_file_tool)
 
-    mcp.tool()(box_tools.box_read_tool)
-    mcp.tool()(box_tools.box_list_folder_content_by_folder_id)
-    mcp.tool()(box_tools.box_manage_folder_tool)
-    mcp.tool()(box_tools.box_upload_file_from_path_tool)
-    mcp.tool()(box_tools.box_upload_file_from_content_tool)
-    mcp.tool()(box_tools.box_download_file_tool)
+    # Folder Tools
+    mcp.tool()(box_list_folder_content_by_folder_id)
+    mcp.tool()(box_manage_folder_tool)
 
 
 if __name__ == "__main__":
