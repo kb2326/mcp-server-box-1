@@ -10,11 +10,11 @@ The Model Context Protocol (MCP) is a framework designed to standardize the way 
 
 ### Box API Tools
 
-#### `box_who_am_i`
+### `box_who_am_i`
 Get your current user information and check connection status.
 - **Returns:** User information string
 
-#### `box_authorize_app_tool`
+### `box_authorize_app_tool`
 Start the Box application authorization process.
 - **Returns:** Authorization status message
 
@@ -27,7 +27,7 @@ Search for files in Box.
   - `ancestor_folder_ids` (List[str], optional): List of folder IDs in which to search.
 - **Returns:** The search results as a newline‑separated list of file names and IDs.
 
-#### `box_read_tool`
+### `box_read_tool`
 Read the text content of a Box file.
 
 **Parameters:**
@@ -405,15 +405,6 @@ pytest -v
 pytest -v -s
 ```
 
-### Available Test Suites
-
-- `test_box_auth.py`: Tests authentication functionality.
-- `test_box_api_basic.py`: Basic Box API tests.
-- `test_box_api_read.py`: Tests file reading capabilities.
-- `test_box_api_search.py`: Tests search functionality.
-- `test_box_api_ai.py`: Tests AI-based features.
-- `test_box_api_file_ops.py`: Tests file upload and download operations.
-- Additional tests cover folder operations and Doc Gen features.
 
 ## Troubleshooting
 
