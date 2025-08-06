@@ -60,13 +60,14 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.CRITICAL)
 
 
-def get_mcp_server(host: str, port: int) -> FastMCP:
+def get_mcp_server(host: str, port: int, app: FastAPI) -> FastMCP:
     return FastMCP(
         "Box MCP HTTP Server",
         stateless_http=True,
         host=host,
         port=port,
         lifespan=box_lifespan,
+        app=app,  # attach the FastAPI app instance
     )
 
 
@@ -129,12 +130,14 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    mcp = get_mcp_server(host=args.host, port=args.port)
+    # Create FastAPI app
+    app = FastAPI()
+
+    # Initialize MCP server using FastAPI app
+    mcp = get_mcp_server(host=args.host, port=args.port, app=app)
     register_tools(mcp)
 
-    # ✅ Add /callback handler for Box OAuth redirect
-    app: FastAPI = mcp.app
-
+    # ✅ Add /callback route
     @app.get("/callback")
     async def box_oauth_callback(request: Request):
         code = request.query_params.get("code")
@@ -143,7 +146,7 @@ if __name__ == "__main__":
         print(f"[Box OAuth] Received state: {state}")
         return HTMLResponse("<h2>✅ Authorization successful. You may now close this tab.</h2>")
 
-    # Optional: diagnostics
+    # Optional: diagnostic tool
     @mcp.tool()
     def mcp_server_info():
         return {
@@ -153,4 +156,6 @@ if __name__ == "__main__":
             "port": args.port,
         }
 
+    # Start MCP
     mcp.run(transport="streamable-http")
+
