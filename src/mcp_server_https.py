@@ -1,7 +1,8 @@
 import argparse
 import logging
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from mcp.server.fastmcp import FastMCP
 
 from box_tools_ai import (
@@ -50,7 +51,7 @@ from box_tools_metadata import (
 from box_tools_search import box_search_folder_by_name_tool, box_search_tool
 from server_context import box_lifespan
 
-# Disable all logging
+# Disable all logging except CRITICAL
 logging.basicConfig(level=logging.CRITICAL)
 for logger_name in logging.root.manager.loggerDict:
     logging.getLogger(logger_name).setLevel(logging.CRITICAL)
@@ -131,6 +132,18 @@ if __name__ == "__main__":
     mcp = get_mcp_server(host=args.host, port=args.port)
     register_tools(mcp)
 
+    # ✅ Add /callback handler for Box OAuth redirect
+    app: FastAPI = mcp.app
+
+    @app.get("/callback")
+    async def box_oauth_callback(request: Request):
+        code = request.query_params.get("code")
+        state = request.query_params.get("state")
+        print(f"[Box OAuth] Received code: {code}")
+        print(f"[Box OAuth] Received state: {state}")
+        return HTMLResponse("<h2>✅ Authorization successful. You may now close this tab.</h2>")
+
+    # Optional: diagnostics
     @mcp.tool()
     def mcp_server_info():
         return {
