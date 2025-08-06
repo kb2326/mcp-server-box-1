@@ -122,8 +122,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--port",
         type=int,
-        default=8000,
-        help="Port for HTTP transport (default: 8000)",
+        default=10000,
+        help="Port for HTTP transport (default: 10000 for Render)",
     )
 
     args = parser.parse_args()
